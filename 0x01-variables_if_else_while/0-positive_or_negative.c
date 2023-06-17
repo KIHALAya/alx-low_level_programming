@@ -1,9 +1,16 @@
+/* Realized by : KIHAL Aya */
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
-/* more headers goes there */
 
-/* betty style doc for function main goes there */
+/**
+ * main -  assign a random number to the variable n each time it is executed.
+ * Print whether  n is positive or negative.
+ *
+ * Return: Successful 0
+ */
+
+
 int main(void)
 {
 	int n;
