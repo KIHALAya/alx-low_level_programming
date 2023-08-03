@@ -5,7 +5,8 @@
 #include "main.h"
 
 /**
- * flip_bits - Returns the number of bits needed to flip to get from one number to another.
+ * flip_bits - Returns the number of bits needed,
+ * to flip to get from one number to another.
  * @n: The first number.
  * @m: The second number.
  *
@@ -22,6 +23,6 @@ unsigned int flip_bits(unsigned long int n, unsigned long int m)
 		xor_result &= (xor_result - 1);
 	}
 
-	return count;
+	return (count);
 }
 
