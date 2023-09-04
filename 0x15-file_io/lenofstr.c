@@ -1,4 +1,5 @@
 /* Author : KIHAL Aya */
+#include "main.h"
 /**
  * lenofstr - return the length of string.
  * @string: string we desire determin the length of.
