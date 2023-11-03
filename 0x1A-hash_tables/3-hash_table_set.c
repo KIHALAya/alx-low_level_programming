@@ -1,54 +1,54 @@
 #include "hash_tables.h"
 
 /**
- * hash_table_set - Adds an element to the hash table
- * @ht: The hash table to add or update the key/value to
- * @key: The key string. Cannot be an empty string
- * @value: The value associated with the key. Must be duplicated
+ * hash_table_set - Add or update an element in a hash table.
+ * @ht: A pointer to the hash table.
+ * @key: The key to add - cannot be an empty string.
+ * @value: The value associated with key.
  *
- * Return: 1 if it succeeded, 0 otherwise
+ * Return: Upon failure - 0.
+ *         Otherwise - 1.
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	unsigned long int index = key_index((unsigned char *)key, ht->size);
-	hash_node_t *new_node, *current;
+	hash_node_t *new_node;
+	char *value_duplicate;
+	unsigned long int hash_index, i;
 
-	if (ht == NULL || key == NULL || *key == '\0')
+	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
 		return (0);
-	current = ht->array[index];
-	while (current != NULL)
+
+	value_duplicate = strdup(value);
+	if (value_duplicate == NULL)
+		return (0);
+
+	hash_index = key_index((const unsigned char *)key, ht->size);
+	for (i = hash_index; ht->array[i]; i++)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (strcmp(ht->array[i]->key, key) == 0)
 		{
-			char *new_value = strdup(value);
-
-			if (new_value == NULL)
-				return (0);
-
-			free(current->value);
-			current->value = new_value;
+			free(ht->array[i]->value);
+			ht->array[i]->value = value_duplicate;
 			return (1);
 		}
-		current = current->next;
 	}
+
 	new_node = malloc(sizeof(hash_node_t));
 	if (new_node == NULL)
+	{
+		free(value_duplicate);
 		return (0);
+	}
 	new_node->key = strdup(key);
 	if (new_node->key == NULL)
 	{
 		free(new_node);
 		return (0);
 	}
-	new_node->value = strdup(value);
-	if (new_node->value == NULL)
-	{
-		free(new_node->key);
-		free(new_node);
-		return (0);
-	}
-	new_node->next = ht->array[index];
-	ht->array[index] = new_node;
+	new_node->value = value_duplicate;
+	new_node->next = ht->array[hash_index];
+	ht->array[hash_index] = new_node;
+
 	return (1);
 }
 
